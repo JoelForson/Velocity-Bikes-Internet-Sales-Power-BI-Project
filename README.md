@@ -87,19 +87,48 @@ Project Setup
 
 -   Created dimensional tables (Date, Product, Customer) to enable filtering and aggregation.
 
-**Example SQL Query:**
+**Example SQL Query to Pull Customer Data:**
 
 ```
-SELECT
-    s.SalesID,
-    s.SalesDate,
-    c.CustomerName,
-    p.ProductName,
-    s.Quantity,
-    s.SalesAmount
-FROM FactInternetSales s
-JOIN DimCustomers c ON s.CustomerID = c.CustomerID
-JOIN DimProducts p ON s.ProductID = p.ProductID
+-- Cleansed DIM_Customers Table --
+SELECT 
+  c.customerkey AS CustomerKey, 
+  --      ,[GeographyKey]
+  --      ,[CustomerAlternateKey]
+  --      ,[Title]
+  c.firstname AS [First Name], 
+  --      ,[MiddleName]
+  c.lastname AS [Last Name], 
+  c.firstname + ' ' + lastname AS [Full Name], 
+  -- Combined First and Last Name
+  --      ,[NameStyle]
+  --      ,[BirthDate]
+  --      ,[MaritalStatus]
+  --      ,[Suffix]
+  CASE c.gender WHEN 'M' THEN 'Male' WHEN 'F' THEN 'Female' END AS Gender,
+  --      ,[EmailAddress]
+  --      ,[YearlyIncome]
+  --      ,[TotalChildren]
+  --      ,[NumberChildrenAtHome]
+  --      ,[EnglishEducation]
+  --      ,[SpanishEducation]
+  --      ,[FrenchEducation]
+  --      ,[EnglishOccupation]
+  --      ,[SpanishOccupation]
+  --      ,[FrenchOccupation]
+  --      ,[HouseOwnerFlag]
+  --      ,[NumberCarsOwned]
+  --      ,[AddressLine1]
+  --      ,[AddressLine2]
+  --      ,[Phone]
+  c.datefirstpurchase AS DateFirstPurchase, 
+  --      ,[CommuteDistance]
+  g.city AS [Customer City] -- Joined in Customer City from Geography Table
+FROM 
+  [AdventureWorksDW2022].[dbo].[DimCustomer] as c
+  LEFT JOIN dbo.dimgeography AS g ON g.geographykey = c.geographykey 
+ORDER BY 
+  CustomerKey ASC -- Ordered List by CustomerKey
 
 ```
 
@@ -226,8 +255,6 @@ Future Enhancements
 Contributors
 ------------
 
--   **Steven**, Sales Manager -- Project Initiator & Requirements Owner
-
 -   **Joel**, Data Analyst -- SQL queries, data modeling, and Power BI dashboard development
 
 * * * * *
@@ -235,7 +262,3 @@ Contributors
 This README provides a **complete project context**, including business goals, data sources, methodology, dashboard features, DAX measures, and business impact.
 
 * * * * *
-
-If you want, I can **also create a "Portfolio Summary Version"** that condenses this README into **a 1--2 paragraph story plus SQL/DAX highlights**, ready to showcase on GitHub or in your portfolio.
-
-Do you want me to do that?
