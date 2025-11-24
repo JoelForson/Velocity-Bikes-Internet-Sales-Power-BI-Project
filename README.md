@@ -1,6 +1,4 @@
-# Digital-Store-Analysis
-
-Velocity Bikes Internet Sales Power BI Project
+# Velocity Bikes Internet Sales Power BI Project
 ==============================================
 
 Project Overview
